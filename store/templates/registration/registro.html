@@ -1,0 +1,70 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% load crispy_forms_tags %} {# Asegúrate de que esté presente #}
+{% load socialaccount %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block content %}
+
+    <title>Ingreso al sistema</title>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12 col-md-6 offset-md-3">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-center">Registro de usuario</h2>
+                        <hr>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                            <br>
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                            <br>
+                            {{ form.password1.label_tag }}
+                            {{ form.password1 }}
+                            <br>
+                            {{ form.password2.label_tag }}
+                            {{ form.password2 }}
+                            <br>
+                            <input type="submit" value="Registrar" class="btn btn-primary">
+                        </form>
+                        <hr>
+                        <div class="text-center">
+                            <a name="" id="" class="btn btn-danger" href="{% url 'store' %}" role="button">Cancelar</a>
+                            |
+                            <a name="" id="" class="btn btn-warning" href="{% url 'login' %}" role="button">Iniciar
+                                sesión</a>
+                        </div>
+                        <hr>
+                        <div class="text-center">
+                            <a href="{% provider_login_url 'google' %}" class="btn btn-secondary">
+                                <i class="fab fa-google"></i> Registrar con Google
+                            </a>
+                        </div>
+                        <hr>
+                        <div class="text-center">
+                            <a href="{% provider_login_url 'github' %}" class="btn btn-dark">
+                                <i class="fab fa-github"></i> Registrar con GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    {% endblock content %}
