@@ -45,47 +45,42 @@ def cookieCart(request):
     return {'cartItems': cartItems, 'order': order, 'items': items}
 
 def cartData(request):
-    """Class representing a Cart Data"""
+    """Obtener los datos del carrito para un usuario"""
 
     if request.user.is_authenticated:
+        # Si el usuario está autenticado, obtenemos los datos del carrito desde la base de datos
         customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer,
-                                                     complete=False)
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
-
     else:
-        cookieData = cookieCart(request)  
+        # Si el usuario no está autenticado, obtenemos los datos del carrito desde las cookies
+        cookieData = cookieCart(request)
         cartItems = cookieData['cartItems']
         order = cookieData['order']
-        items = cookieData['items']   
+        items = cookieData['items']
 
     return {'cartItems': cartItems, 'order': order, 'items': items}
 
 def guestOrder(request, data):
-	name = data['form']['name']
-	email = data['form']['email']
+    name = data['form']['name']
+    email = data['form']['email']
 
-	cookieData = cookieCart(request)
-	items = cookieData['items']
+    # Creamos un cliente (Customer) y una orden (Order) para el usuario invitado
+    customer, created = Customer.objects.get_or_create(email=email)
+    customer.name = name
+    customer.save()
 
-	customer, created = Customer.objects.get_or_create(
-			email=email,
-            )
-	customer.name = name
-	customer.save()
+    order = Order.objects.create(customer=customer, complete=False)
 
-	order = Order.objects.create(
-		    customer=customer,
-		    complete=False,
-		    )
+    items = data['items']
 
-	for item in items:
-		product = Product.objects.get(id=item['id'])
-		orderItem = OrderItem.objects.create(
-			    product=product,
-			    order=order,
-			    quantity=(item['quantity']
-                if item['quantity'] > 0 else -1*item['quantity']))
-                
-	return customer, order
+    for item in items:
+        product = Product.objects.get(id=item['product']['id'])
+        orderItem = OrderItem.objects.create(
+            product=product,
+            order=order,
+            quantity=item['quantity']
+        )
+
+    return customer, order

@@ -5,6 +5,7 @@ import json
 import datetime
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 
 from . models import ShippingAddress, Order, OrderItem, Product, Customer
 
@@ -77,28 +78,26 @@ def updateItem(request):
 
     return JsonResponse("Item añadido", safe=False)
 
+@csrf_exempt
 def processOrder(request):
-    transaction_id = datetime.datetime.now().timestamp()
-    data = json.loads(request.body)
+    if request.method == 'POST':
+        transaction_id = datetime.datetime.now().timestamp()
+        data = json.loads(request.body)
 
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer,
-                                                     complete=False)
+        if request.user.is_authenticated:
+            customer = request.user.customer
+            order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        else:
+            customer, order = guestOrder(request, data)
 
-    else:
+        total = float(data['form']['total'])
+        order.transaction_id = transaction_id
 
-        customer, order = guestOrder(request, data)
+        if total == float(order.get_cart_total):
+            order.complete = True
+        order.save()
 
-    total = float(data['form']['total'])
-    order.transaction_id = transaction_id
-
-    if total == float(order.get_cart_total):
-        order.complete = True
-    order.save()
-
-
-    if order.shipping == True:
+        if order.shipping:
             ShippingAddress.objects.create(
                 customer=customer,
                 order=order,
@@ -107,7 +106,8 @@ def processOrder(request):
                 telephone=data['shipping']['telephone'],
             )
 
-    return JsonResponse("Pago completado", safe=False)
+        return JsonResponse("Pago completado", safe=False)
+
 
 
 # PRUEBA INICIO DE SESION
@@ -126,17 +126,22 @@ def registro(request):
     if request.method == 'POST':
         formulario = CustomUserCreationForm(data=request.POST)
         if formulario.is_valid():
-            user = formulario.save()  # Guardar el usuario
+            user = formulario.save()
+
+            # Autenticar al usuario recién registrado
+            user = authenticate(username=formulario.cleaned_data["username"], password=formulario.cleaned_data["password1"])
+            login(request, user)
+
             # Crear un nuevo objeto Customer relacionado con el usuario
             customer = Customer.objects.create(
                 user=user,
                 name=user.username,
                 email=user.username + "@gmail.com"
             )
-            user = authenticate(username=formulario.cleaned_data["username"], password=formulario.cleaned_data["password1"])
-            login(request, user)
+
             messages.success(request, "Te has registrado correctamente")
-            return redirect('store')  # O redirecciona a la vista adecuada
+            return redirect('store')  # Redireccionar a la vista adecuada
+
         data['form'] = formulario
 
     return render(request, 'registration/registro.html', data)

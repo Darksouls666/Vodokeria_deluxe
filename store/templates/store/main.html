@@ -81,23 +81,25 @@
             <!-- <div class="form-inline my-2 my-lg-0">
                 <a href="#" class="btn btn-warning">Login</a> -->
 
-            {% if user.is_authenticated %}
-            <ol>
-                <a href="{% url 'logout' %}" class="btn btn-warning">cerrar
-                    sesión</a>
-            </ol>
-            <ol>
-                <a href="#" class="col-12" style="position: relative; color: gold;">
-                    @{{ user.username }}</a>
-            </ol>
-            {% else %}
-            <a href="{% url 'login' %}" class="btn btn-warning">login</a>
-            {% endif %}
+            <div class="form-inline my-2 my-lg-0">
+                {% if user.is_authenticated %}
+                <ol>
+                    <a href="{% url 'logout' %}" class="btn btn-warning">Cerrar sesión</a>
+                </ol>
+                <ol>
+                    <a href="#" class="col-12" style="position: relative; color: gold;">
+                        {{ user.username }}</a>
+                </ol>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-warning">Iniciar sesión</a>
+                {% endif %}
 
-            <a href="{% url 'cart' %}">
-                <img id="cart-icon" src="{% static 'images/cart.png' %}">
-            </a>
-            <p id="cart-total">{{cartItems}}</p>
+                <a href="{% url 'cart' %}">
+                    <img id="cart-icon" src="{% static 'images/cart.png' %}">
+                </a>
+                <p id="cart-total">{{ cartItems }}</p>
+            </div>
+        </div>
 
         </div>
         </div>
