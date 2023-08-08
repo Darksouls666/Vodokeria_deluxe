@@ -2,10 +2,10 @@ import json
 from . models import Product, Customer, Order, OrderItem
 
 def cookieCart(request):
-
     try:
-        cart = json.loads(request.COOKIES['cart'])
-    except ImportError:
+        cart_json = request.COOKIES['cart']
+        cart = json.loads(cart_json)
+    except KeyError:
         cart = {}
 
     print('Cart:', cart)
