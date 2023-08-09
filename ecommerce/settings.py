@@ -62,6 +62,8 @@ INSTALLED_APPS = [
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
+CSRF_TRUSTED_ORIGINS = ['https://vodokeriadeluxe-production.up.railway.app/']
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
