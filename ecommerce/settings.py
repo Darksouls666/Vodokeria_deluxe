@@ -98,10 +98,15 @@ WSGI_APPLICATION = "ecommerce.wsgi.application"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://postgres:postgres@localhost/postgres',
-        conn_max_age=600
-    )
+    'default': {
+        #'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'OfyN1SNJFMlQVtz9dXqp',
+        'HOST': 'containers-us-west-202.railway.app',
+        'PORT': '7333',
+    }
 }
 
 SOCIALACCOUNT_PROVIDERS = {
