@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-t7)*1slok(qirm*@u5_6uu+7i8m#o=!+4cy68%46(59)(wps#0"
+SECRET_KEY = "5ix6f$06tx%ua@-+)8#^x2o$e7)yn$r9&(qleetsxo^$gh1bps"
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -63,7 +63,7 @@ INSTALLED_APPS = [
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
-CSRF_TRUSTED_ORIGINS = ['vodokeriadeluxe-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://vodokeriadeluxe-production.up.railway.app/']
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
