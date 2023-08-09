@@ -58,11 +58,13 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
+    'corsheaders',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -182,3 +184,10 @@ MEDIA_URL = "/images/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CORS_ALLOWED_ORIGINS = [
+    "https://vodokeriadeluxe-production.up.railway.app",
+    # Agrega aquí otros orígenes confiables si es necesario
+]
+
+CORS_ALLOW_CREDENTIALS = True

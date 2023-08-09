@@ -6,6 +6,7 @@ import datetime
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_protect
 
 from . models import ShippingAddress, Order, OrderItem, Product, Customer
 
@@ -78,7 +79,7 @@ def updateItem(request):
 
     return JsonResponse("Item añadido", safe=False)
 
-@csrf_exempt
+@csrf_protect
 def processOrder(request):
     if request.method == 'POST':
         transaction_id = datetime.datetime.now().timestamp()
@@ -111,6 +112,7 @@ def processOrder(request):
 
 
 # PRUEBA INICIO DE SESION
+@csrf_protect
 def customerCreated(request):
 
     data = {
@@ -118,6 +120,7 @@ def customerCreated(request):
     }
     return render(request, 'registration/login.html', data)
 
+@csrf_protect
 def registro(request):
     data = {
         'form': CustomUserCreationForm()
