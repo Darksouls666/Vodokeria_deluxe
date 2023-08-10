@@ -27,7 +27,7 @@ SECRET_KEY = "5ix6f$06tx%ua@-+)8#^x2o$e7)yn$r9&(qleetsxo^$gh1bps"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://vodokeriadeluxe-production.up.railway.app']
+ALLOWED_HOSTS = ['vodokeriadeluxe-production.up.railway.app']
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:    
