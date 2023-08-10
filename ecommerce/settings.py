@@ -189,6 +189,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOWED_ORIGINS = [
     "https://vodokeriadeluxe-production.up.railway.app",
+     "https://*.127.0.0.1",
     # Agrega aquí otros orígenes confiables si es necesario
 ]
 
