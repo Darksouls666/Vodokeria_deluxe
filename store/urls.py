@@ -10,4 +10,5 @@ urlpatterns = [
     path("process_order/", views.processOrder, name="process_order"),
     path("customer_created/", views.customerCreated, name="customer_created"),
     path("registro/", views.registro, name="registro"),
+    path("contacto/", views.contacto, name="contacto"),
 ]
